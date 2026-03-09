@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Peter's Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f0e8;
+    --ink: #1a1410;
+    --muted: #7a6e62;
+    --rule: #d4cdc2;
+    --accent: #c0392b;
+    --accent2: #e8a020;
+    --card-bg: #fdfaf5;
+    --tag-bg: #ede8df;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Grain texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  /* Header / masthead */
+  header {
+    border-bottom: 3px double var(--ink);
+    padding: 2.5rem 2rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .masthead-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 1rem;
+  }
+
+  .issue-line {
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-top: 1px solid var(--ink);
+    padding-top: 0.5rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .site-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    line-height: 0.9;
+    letter-spacing: -2px;
+    color: var(--ink);
+  }
+
+  .site-title em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .tagline {
+    font-size: 0.8rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 0.8rem;
+    border-top: 1px solid var(--rule);
+    padding-top: 0.6rem;
+  }
+
+  .header-right {
+    text-align: right;
+  }
+
+  .header-right .date {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+
+  .project-count {
+    display: inline-block;
+    background: var(--ink);
+    color: var(--bg);
+    font-size: 0.65rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 0.3rem 0.7rem;
+    margin-top: 0.5rem;
+  }
+
+  /* Main layout */
+  main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2.5rem 2rem 4rem;
+  }
+
+  .section-rule {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .section-rule h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .section-rule::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--ink);
+  }
+
+  /* Project grid */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5px;
+    background: var(--ink);
+    border: 1.5px solid var(--ink);
+    margin-bottom: 3rem;
+  }
+
+  .project-card {
+    background: var(--card-bg);
+    padding: 1.6rem 1.4rem;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    transition: background 0.15s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-card:hover {
+    background: var(--ink);
+    color: var(--bg);
+  }
+
+  .project-card:hover .project-tag {
+    background: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.6);
+  }
+
+  .project-card:hover .project-number {
+    color: var(--accent2);
+  }
+
+  .project-card:hover .arrow {
+    opacity: 1;
+    transform: translateX(0);
+    color: var(--accent2);
+  }
+
+  .project-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+
+  .project-name {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.25rem;
+    line-height: 1.2;
+  }
+
+  .project-desc {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.6;
+    flex: 1;
+  }
+
+  .project-card:hover .project-desc {
+    color: rgba(255,255,255,0.55);
+  }
+
+  .project-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.3rem;
+  }
+
+  .project-tag {
+    background: var(--tag-bg);
+    color: var(--muted);
+    font-size: 0.65rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 0.25rem 0.6rem;
+  }
+
+  .arrow {
+    font-size: 1rem;
+    opacity: 0;
+    transform: translateX(-6px);
+    transition: opacity 0.15s, transform 0.15s;
+    color: var(--accent);
+  }
+
+  /* Coming soon card */
+  .project-card.coming-soon {
+    opacity: 0.45;
+    cursor: default;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+      45deg,
+      var(--card-bg),
+      var(--card-bg) 10px,
+      #f0ebe0 10px,
+      #f0ebe0 11px
+    );
+  }
+
+  /* About strip */
+  .about-strip {
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding: 1.2rem 0;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .about-strip p {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.7;
+    flex: 1;
+    min-width: 220px;
+  }
+
+  .about-strip p strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .built-with {
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-left: 2px solid var(--accent);
+    padding-left: 0.8rem;
+    white-space: nowrap;
+  }
+
+  /* Stagger animation */
+  .project-card {
+    animation: fadeUp 0.4s ease both;
+  }
+
+  .project-card:nth-child(1) { animation-delay: 0.05s; }
+  .project-card:nth-child(2) { animation-delay: 0.1s; }
+  .project-card:nth-child(3) { animation-delay: 0.15s; }
+  .project-card:nth-child(4) { animation-delay: 0.2s; }
+  .project-card:nth-child(5) { animation-delay: 0.25s; }
+  .project-card:nth-child(6) { animation-delay: 0.3s; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 540px) {
+    .masthead-inner { grid-template-columns: 1fr; }
+    .header-right { text-align: left; }
+    .projects-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="masthead-inner">
+    <div>
+      <div class="issue-line">Digital Playground · Est. 2025 · Zimbabwe</div>
+      <div class="site-title">Peter's<br><em>Lab</em></div>
+      <div class="tagline">Experiments in code, design &amp; useful tools</div>
+    </div>
+    <div class="header-right">
+      <div class="date">Updated regularly</div>
+      <div class="project-count" id="proj-count">1 Project Live</div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <div class="section-rule"><h2>Projects</h2></div>
+
+  <div class="projects-grid">
+
+    <!-- Project 01 - Live -->
+    <a class="project-card" href="agent-directory.html">
+      <div class="project-number">No. 001</div>
+      <div class="project-name">Agent Directory</div>
+      <div class="project-desc">Searchable directory of Secret to Health Ministry agents across Zimbabwe, South Africa, Botswana, UK and beyond. Filter by name, area or phone number.</div>
+      <div class="project-footer">
+        <span class="project-tag">Directory · Search</span>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <!-- Placeholder slots -->
+    <div class="project-card coming-soon">
+      <div class="project-number">No. 002</div>
+      <div class="project-name">Coming Soon</div>
+      <div class="project-desc">Next project goes here.</div>
+      <div class="project-footer">
+        <span class="project-tag">In Progress</span>
+      </div>
+    </div>
+
+    <div class="project-card coming-soon">
+      <div class="project-number">No. 003</div>
+      <div class="project-name">Coming Soon</div>
+      <div class="project-desc">Next project goes here.</div>
+      <div class="project-footer">
+        <span class="project-tag">In Progress</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="about-strip">
+    <p>Built project by project. Each tool here solves a real problem — for business, community, or just curiosity. <strong>Pure HTML, no frameworks, no fuss.</strong></p>
+    <div class="built-with">Built with Claude AI</div>
+  </div>
+
+</main>
+
+</body>
+</html>
