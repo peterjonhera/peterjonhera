@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent Directory – Secret to Health</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #1f2937;
+    --border: #2d3748;
+    --accent: #38b2ac;
+    --accent2: #81e6d9;
+    --gold: #f6ad55;
+    --text: #e2e8f0;
+    --muted: #718096;
+    --tag-bg: #1a3a3a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* Header */
+  header {
+    background: linear-gradient(135deg, #0d2626 0%, #0d1117 60%);
+    border-bottom: 1px solid var(--border);
+    padding: 2rem 1.5rem 1.5rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(12px);
+  }
+
+  .header-inner {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .brand {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.3rem;
+    color: var(--accent2);
+    letter-spacing: -0.5px;
+    margin-bottom: 0.2rem;
+  }
+
+  .brand span { color: var(--gold); }
+
+  .tagline {
+    font-size: 0.8rem;
+    color: var(--muted);
+    font-weight: 300;
+    margin-bottom: 1.2rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .search-wrap {
+    position: relative;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    font-size: 1rem;
+    pointer-events: none;
+  }
+
+  #search {
+    width: 100%;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 0.8rem 1rem 0.8rem 2.8rem;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  #search:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(56,178,172,0.15);
+  }
+
+  #search::placeholder { color: var(--muted); }
+
+  .stats {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+
+  .stat strong {
+    color: var(--accent2);
+    font-weight: 600;
+  }
+
+  /* Main */
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1.5rem;
+  }
+
+  /* Head Office */
+  .head-office {
+    background: linear-gradient(135deg, var(--tag-bg), #1a2a2a);
+    border: 1.5px solid var(--accent);
+    border-radius: 14px;
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 1.8rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .head-office-badge {
+    background: var(--accent);
+    color: #0d1117;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.65rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 0.25rem 0.6rem;
+    border-radius: 20px;
+    margin-bottom: 0.4rem;
+    display: inline-block;
+  }
+
+  .head-office-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--accent2);
+  }
+
+  .head-office-details { flex: 1; min-width: 180px; }
+  .head-office-details p { font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
+
+  .ho-phone {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.5rem 0.9rem;
+    font-size: 0.9rem;
+    color: var(--accent2);
+    text-decoration: none;
+    font-weight: 500;
+    margin-top: 0.5rem;
+    transition: background 0.2s;
+  }
+
+  .ho-phone:hover { background: var(--tag-bg); }
+
+  /* Region sections */
+  .region-block {
+    margin-bottom: 1.2rem;
+  }
+
+  .region-header {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.7rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .region-header .count {
+    background: var(--surface2);
+    color: var(--accent);
+    font-size: 0.65rem;
+    padding: 0.1rem 0.4rem;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0;
+  }
+
+  /* Agent cards grid */
+  .agents-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 0.6rem;
+  }
+
+  .agent-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.9rem 1rem;
+    transition: border-color 0.2s, transform 0.15s;
+    cursor: default;
+  }
+
+  .agent-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-1px);
+  }
+
+  .agent-name {
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: var(--text);
+    margin-bottom: 0.25rem;
+    line-height: 1.3;
+  }
+
+  .agent-location {
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .agent-phone {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--accent2);
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .agent-phone:hover { color: white; }
+
+  /* No results */
+  .no-results {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--muted);
+    display: none;
+  }
+
+  .no-results .emoji { font-size: 2.5rem; margin-bottom: 0.8rem; }
+  .no-results p { font-size: 0.9rem; }
+
+  /* Highlight match */
+  mark {
+    background: rgba(56,178,172,0.25);
+    color: var(--accent2);
+    border-radius: 2px;
+    padding: 0 1px;
+  }
+
+  /* Responsive */
+  @media (max-width: 500px) {
+    .agents-grid { grid-template-columns: 1fr; }
+    .head-office { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="brand">Secret to Health <span>Ministry</span></div>
+    <div class="tagline">Agent Directory</div>
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input id="search" type="text" placeholder="Search by name, area, phone number…" autocomplete="off">
+    </div>
+    <div class="stats">
+      <div class="stat">Showing <strong id="visible-count">0</strong> agents</div>
+      <div class="stat"><strong id="region-count">0</strong> regions</div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- Head Office -->
+  <div class="head-office" id="head-office">
+    <div class="head-office-details">
+      <span class="head-office-badge">Head Office</span>
+      <div class="head-office-name">Roben House</div>
+      <p>Shop 10 &amp; 11, Cnr Second Street &amp; Robson Manyika, Harare CBD<br>
+      Sun–Fri · 8am to 4pm</p>
+      <a class="ho-phone" href="tel:+263773811793">📞 0773 811 793</a>
+    </div>
+  </div>
+
+  <div id="directory"></div>
+  <div class="no-results" id="no-results">
+    <div class="emoji">🌍</div>
+    <p>No agents found for "<span id="search-term"></span>"</p>
+  </div>
+
+</main>
+
+<script>
+const agents = [
+  // Special
+  { name: "Dr Mai Sta", location: "International Consultant", phone: "+263718536429", region: "Special Roles" },
+  { name: "Sasha Agent", location: "Harare Main Shop Sales Rep", phone: "+263784013392", region: "Special Roles" },
+
+  // Harare suburbs
+  { name: "Mai Bruce", location: "Avondale", phone: "+263787030787", region: "Avondale · Harare" },
+  { name: "Mr Nyaradzo", location: "Avondale", phone: "+263716184735", region: "Avondale · Harare" },
+  { name: "Mrs Ndoro", location: "Avonlea – Mt Pleasant", phone: "+263772254078", region: "Avonlea" },
+  { name: "Mrs Manuwa", location: "Budiriro", phone: "+263787007760", region: "Budiriro · Harare" },
+  { name: "Mrs Mugurasawe", location: "Budiriro", phone: "+263772297246", region: "Budiriro · Harare" },
+  { name: "Mai Michael", location: "Budiriro 4 ext – CABS Houses", phone: "+263781980855", region: "Budiriro · Harare" },
+  { name: "Mai Nothando", location: "Budiriro – CABS", phone: "+263716088720", region: "Budiriro · Harare" },
+  { name: "Mr Kurehwatira", location: "CABS", phone: "+263773042909", region: "Budiriro · Harare" },
+  { name: "Mr Tangwena", location: "Borrowdale", phone: "+263713425067", region: "Borrowdale" },
+  { name: "Mrs J Mubika", location: "Borrowdale Brook", phone: "+263774335899", region: "Borrowdale" },
+  { name: "Mrs Muposhi", location: "Crowhill", phone: "+263782004554", region: "Borrowdale" },
+  { name: "Mai Sam", location: "Chitungwiza", phone: "+263773444916", region: "Chitungwiza · Dema · Seke" },
+  { name: "Mrs Hute", location: "Chitungwiza – Seke", phone: "+263772297105", region: "Chitungwiza · Dema · Seke" },
+  { name: "Mai Kendy", location: "Chitungwiza – Zengeza", phone: "+263788264092", region: "Chitungwiza · Dema · Seke" },
+  { name: "Ms Chisadza", location: "Zengeza", phone: "+263772917019", region: "Chitungwiza · Dema · Seke" },
+  { name: "Mr Byron", location: "Dema", phone: "+263784665735", region: "Chitungwiza · Dema · Seke" },
+  { name: "Mrs Muchira", location: "Ziko – Chitungwiza", phone: "+263773798148", region: "Chitungwiza · Dema · Seke" },
+  { name: "Mr Mubvakure", location: "Unit G – Chitungwiza", phone: "+263718811466", region: "Chitungwiza · Dema · Seke" },
+  { name: "Mr Rashirai", location: "Nyatsime", phone: "+263776628722", region: "Chitungwiza · Dema · Seke" },
+  { name: "Mrs Mutambirwa", location: "Town Center – C Junction", phone: "+263775962634", region: "Chitungwiza · Dema · Seke" },
+  { name: "Blossom Matiza", location: "Makoni Shops", phone: "+263714962746", region: "Chitungwiza · Dema · Seke" },
+  { name: "Mrs Manase", location: "Zengeza 3 – Chitungwiza", phone: "+263774301421", region: "Chitungwiza · Dema · Seke" },
+  { name: "Ms K Ruzive", location: "Unit J", phone: "+263777320309", region: "Chitungwiza · Dema · Seke" },
+  { name: "Ms S Sadomba", location: "Makoni", phone: "+263777369619", region: "Chitungwiza · Dema · Seke" },
+  { name: "Ms Doreen", location: "Unit M", phone: "+263771941326", region: "Chitungwiza · Dema · Seke" },
+  { name: "Mrs Zaranyika", location: "Zengeza", phone: "+263772765283", region: "Chitungwiza · Dema · Seke" },
+  { name: "Mrs Muchenje", location: "Nyatsime", phone: "+263775270497", region: "Chitungwiza · Dema · Seke" },
+  { name: "Mai Chiwanza", location: "Cranborne", phone: "+263779422338", region: "Cranborne" },
+  { name: "Mrs Chirongoma", location: "Crowborough", phone: "+263774138141", region: "Crowborough" },
+  { name: "Mai Christine", location: "Damafalls", phone: "+263772209044", region: "Damafalls" },
+  { name: "Mr Tichaona Bauti", location: "Vherechena – Domboshava", phone: "+263789864468", region: "Domboshava" },
+  { name: "Ms Primrose", location: "Dzivarasekwa", phone: "+263784240777", region: "Dzivarasekwa · Harare" },
+  { name: "Ms Fionah", location: "Dzivarasekwa – Gunhill", phone: "+263772946052", region: "Dzivarasekwa · Harare" },
+  { name: "Mrs Chibaya", location: "Dzivarasekwa", phone: "+263771766570", region: "Dzivarasekwa · Harare" },
+  { name: "Mrs Chikombe", location: "Eastview", phone: "+263717544212", region: "Eastview · Harare" },
+  { name: "Mrs Manuhwa", location: "Eastview – New Lands", phone: "+263773843135", region: "Eastview · Harare" },
+  { name: "Mai Chapwanya", location: "Eastview", phone: "+263776125921", region: "Eastview · Harare" },
+  { name: "Ms Nelly C", location: "Eastview", phone: "+263776302775", region: "Eastview · Harare" },
+  { name: "Mrs J Goto", location: "Eastview / Phase 1", phone: "+263779560918", region: "Eastview · Harare" },
+  { name: "Tanyaradzwa", location: "Eastview", phone: "+263775536316", region: "Eastview · Harare" },
+  { name: "Ms Shauleen", location: "Eastview", phone: "+263714875191", region: "Eastview · Harare" },
+  { name: "Mrs Beta", location: "Epworth – Hatfield", phone: "+263779563002", region: "Epworth · Harare" },
+  { name: "Mrs Mataranyika", location: "Epworth", phone: "+263773527360", region: "Epworth · Harare" },
+  { name: "Mr Nemukuyu", location: "Glen Norah", phone: "+263776292610", region: "Glen Norah" },
+  { name: "S Mufumisi Tota", location: "Glen Norah", phone: "+263783485070", region: "Glen Norah" },
+  { name: "Mrs Hwindingwi", location: "Glen Norah", phone: "+263774341619", region: "Glen Norah" },
+  { name: "W Makoni", location: "Glenview 8", phone: "+263773915878", region: "Glenview" },
+  { name: "Blessing Chimuka", location: "Glenview 3", phone: "+263774912440", region: "Glenview" },
+  { name: "Manhuwa", location: "Glenview", phone: "+263787007760", region: "Glenview" },
+  { name: "Kudakwashe Mhonyera", location: "Green Valley / Airport", phone: "+263774603142", region: "Glenwood" },
+  { name: "Tariro Jack", location: "Granary Phase 1b", phone: "+263782536514", region: "Granary" },
+  { name: "Mr Chavhi Tafadzwa", location: "Hatcliffe", phone: "+263772547429", region: "Hatcliffe · Harare" },
+  { name: "Mrs Chiwondo", location: "Hatcliffe", phone: "+263772958447", region: "Hatcliffe · Harare" },
+  { name: "Mrs Mhuka", location: "Hatfield", phone: "+263773843550", region: "Hatfield" },
+  { name: "Mrs Garikai", location: "Hatfield", phone: "+263772269913", region: "Hatfield" },
+  { name: "Mai Chimwedzi", location: "Hatfield", phone: "+263719179074", region: "Hatfield" },
+  { name: "Mrs Ranjisi", location: "Highfield", phone: "+263777608533", region: "Highfield" },
+  { name: "Mrs Bhebhe", location: "Kambuzuma", phone: "+263716328356", region: "Kambuzuma" },
+  { name: "Mrs Tanda", location: "Kambuzuma Section 3", phone: "+263711949133", region: "Kambuzuma" },
+  { name: "Mai Chanty", location: "Kuwadzana", phone: "+263775651533", region: "Kuwadzana" },
+  { name: "Mai Kuda", location: "Kuwadzana", phone: "+263775567100", region: "Kuwadzana" },
+  { name: "Mai Sande", location: "Kuwadzana Extension", phone: "+263717712740", region: "Kuwadzana" },
+  { name: "Mai Bylon", location: "New Mabvuku", phone: "+263781352926", region: "Mabvuku" },
+  { name: "Mrs Mupfuranhewe", location: "Mabvuku", phone: "+263778386824", region: "Mabvuku" },
+  { name: "Agent", location: "Marlborough", phone: "+263773422314", region: "Marlborough" },
+  { name: "Mai Tariro", location: "Mabelreign / Hwedza", phone: "+263772309731", region: "Mabelreign" },
+  { name: "Ms L Nyawo", location: "Mbare", phone: "+263775351364", region: "Mbare" },
+  { name: "Mr/s Munhenga", location: "Kensington – Milton Park", phone: "+263774007529", region: "Milton Park · Harare" },
+  { name: "Tellmore Tanda", location: "Mufakose / Kambuzuma", phone: "+263777375735", region: "Mufakose" },
+  { name: "C Chifamba", location: "Mt Pleasant", phone: "+263773444916", region: "Mount Pleasant" },
+  { name: "Ms A Zhandire", location: "Mt Pleasant", phone: "+263716956900", region: "Mount Pleasant" },
+  { name: "Elder Manjovo", location: "Harare Polytechnic / Mpilo Byo", phone: "+263775406143", region: "Harare Polytechnic" },
+  { name: "Kegina Chekai", location: "Chitekete – Hopley", phone: "+263776297718", region: "Hopley · Chitekete" },
+  { name: "Ms Thembie", location: "Solomio – Ruwa", phone: "+263772283856", region: "Ruwa" },
+  { name: "Mai Michelle", location: "Ruwa", phone: "+263714094688", region: "Ruwa" },
+  { name: "Ms Mutiro", location: "George – Ruwa", phone: "+263775857731", region: "Ruwa" },
+  { name: "Ms Tanatswa", location: "Rydale Ridge", phone: "+263782536514", region: "Rydale Ridge" },
+  { name: "Mr Tatenda", location: "Stoneridge", phone: "+263717544212", region: "Stoneridge · Harare" },
+  { name: "Agent T Majangara", location: "Southlea Park", phone: "+263772530773", region: "Southlea Park · Harare" },
+  { name: "Mrs Evans", location: "Sunningdale", phone: "+263772808631", region: "Sunningdale" },
+  { name: "Garudzo E", location: "Southerton", phone: "+263716624439", region: "Southerton" },
+  { name: "Mai Dee", location: "Tynwald", phone: "+263773840257", region: "Tynwald" },
+  { name: "Mrs Tafirenyika", location: "Tynwald South", phone: "+263717240445", region: "Tynwald" },
+  { name: "Mr Gomwe", location: "Waterfalls – Mbare", phone: "+263772921614", region: "Waterfalls · Harare" },
+  { name: "Mai Martha", location: "Waterfalls – Mainway", phone: "+263776003577", region: "Waterfalls · Harare" },
+  { name: "Mai Chihabu", location: "Waterfalls", phone: "+263715302411", region: "Waterfalls · Harare" },
+  { name: "Mrs Zindoga", location: "Waterfalls", phone: "+263772300101", region: "Waterfalls · Harare" },
+  { name: "Mai Nyamukachi", location: "Waterfalls", phone: "+263775953836", region: "Waterfalls · Harare" },
+  { name: "Ms Chinyanga", location: "Waterfalls", phone: "+263773301111", region: "Waterfalls · Harare" },
+  { name: "Mama Tt", location: "Waterfalls", phone: "+263787597600", region: "Waterfalls · Harare" },
+  { name: "Ms Tatenda", location: "Waterfalls", phone: "+263776440914", region: "Waterfalls · Harare" },
+  { name: "Kelvin Nyagumbo", location: "Warren Park", phone: "+263781853641", region: "Warren Park · Harare" },
+  { name: "Mother Vee", location: "Westgate – Mabelreign", phone: "+263712710411", region: "Westgate" },
+  { name: "Mrs Sithole", location: "Whitehouse", phone: "+263713335277", region: "Whitecliffe" },
+  { name: "Mai Matshe", location: "Whitecliffe – Lake Chivero", phone: "+263772237571", region: "Whitecliffe" },
+  { name: "Ms Priscilla", location: "Sunway City – Zimre", phone: "+263718953897", region: "Zimre" },
+  { name: "Mrs Murenje", location: "Zimre – Tafara", phone: "+263773956922", region: "Zimre" },
+  { name: "Lynette Guti", location: "Zimre Park", phone: "+263772737362", region: "Zimre" },
+  { name: "Mai Kuda", location: "Zimre Park", phone: "+263772634600", region: "Zimre" },
+  { name: "Ms Jesina", location: "Ushewokunze", phone: "+263774740406", region: "Ushewokunze" },
+  { name: "Mrs Charinga", location: "Ushewokunze", phone: "+263783498094", region: "Ushewokunze" },
+
+  // Outside Harare - Zimbabwe
+  { name: "Mai Anashe", location: "Beatrice", phone: "+263719351142", region: "Beatrice" },
+  { name: "Mai Shanty", location: "Beatrice", phone: "+263785880491", region: "Beatrice" },
+  { name: "Mrs Madondo", location: "Beatrice", phone: "+263771118593", region: "Beatrice" },
+  { name: "Mai Pana", location: "Beitbridge", phone: "+263772638756", region: "Beitbridge" },
+  { name: "Mrs Mabuto", location: "Beitbridge", phone: "+263778459175", region: "Beitbridge" },
+  { name: "Mrs Maphosa", location: "Bindura", phone: "+263772405247", region: "Bindura" },
+  { name: "Agent Madziva", location: "Bindura", phone: "+263782259851", region: "Bindura" },
+  { name: "Ms Daddie", location: "Bindura", phone: "+263717370788", region: "Bindura" },
+  { name: "Mai Martins", location: "Bindura", phone: "+263777191457", region: "Bindura" },
+  { name: "Ms Inviolata Mawuru", location: "Bindura – Growth Point", phone: "+263772865991", region: "Bindura" },
+  { name: "Mposa", location: "Birchenough Bridge", phone: "+263773254195", region: "Birchenough Bridge" },
+  { name: "Mr Musiwedzingo", location: "Nyika – Bikita", phone: "+263775033305", region: "Bikita" },
+  { name: "Miss Zimazile Ndlovu", location: "Entumbane – Bulawayo", phone: "+263782156707", region: "Bulawayo" },
+  { name: "Mrs Ncube", location: "Cowdry Park / Luveve – Bulawayo", phone: "+263777955632", region: "Bulawayo" },
+  { name: "Ms Namatirai", location: "Kingdale – Bulawayo", phone: "+263717132957", region: "Bulawayo" },
+  { name: "Ms Eva", location: "Bulawayo", phone: "+263713038138", region: "Bulawayo" },
+  { name: "Mai Mudzengi", location: "Mpopoma – Bulawayo", phone: "+263772629787", region: "Bulawayo" },
+  { name: "Mr Nhlabangani", location: "Khulumane – Bulawayo", phone: "+263773962734", region: "Bulawayo" },
+  { name: "Mrs Ncube", location: "Tsholotsho / Mbembesi – Bulawayo", phone: "+263773700629", region: "Bulawayo" },
+  { name: "Agent N Mlalazi", location: "Phumula East – Bulawayo", phone: "+263714456561", region: "Bulawayo" },
+  { name: "Ms Carolin", location: "Figtree – Bulawayo", phone: "+263783636684", region: "Bulawayo" },
+  { name: "Siza Moyo", location: "Parklands – Bulawayo", phone: "+263773792952", region: "Bulawayo" },
+  { name: "Agent Siphatisiwe", location: "Sizinda – Bulawayo", phone: "+263784615692", region: "Bulawayo" },
+  { name: "Ms Precious Mabhena", location: "Kezi / Maphisa", phone: "+263716054375", region: "Bulawayo" },
+  { name: "Mrs S Moyo", location: "Lupane", phone: "+263773211757", region: "Bulawayo" },
+  { name: "Ms Mutandiko", location: "Lupane", phone: "+263786197960", region: "Bulawayo" },
+  { name: "S V Mlotshwa", location: "Makokoba", phone: "+263786072138", region: "Bulawayo" },
+  { name: "Mr J Tambawoga", location: "Gaza – Buhera Munyanyi", phone: "+263713241226", region: "Buhera" },
+  { name: "Mai TK", location: "Chipinge – Emerald Primary", phone: "+263774303134", region: "Chipinge" },
+  { name: "Agent Kayz", location: "Chipinge", phone: "+263774069290", region: "Chipinge" },
+  { name: "Mrs Chirawu", location: "Chipinge", phone: "+263772521760", region: "Chipinge" },
+  { name: "Mrs Marufu", location: "Chegutu", phone: "+263773364820", region: "Chegutu" },
+  { name: "Ms LeeNess", location: "Chegutu", phone: "+263781431194", region: "Chegutu" },
+  { name: "Mrs Sithole", location: "Chimanimani", phone: "+263774736249", region: "Chimanimani" },
+  { name: "Mr Enoch", location: "Chinhoyi", phone: "+263772114599", region: "Chinhoyi" },
+  { name: "Mrs Makwangwaidze", location: "Chinhoyi", phone: "+263775634565", region: "Chinhoyi" },
+  { name: "Mrs Randa", location: "Chinhoyi", phone: "+263783388810", region: "Chinhoyi" },
+  { name: "Mrs Matiza", location: "Chinhoyi", phone: "+263772357003", region: "Chinhoyi" },
+  { name: "Mai Tamirepi", location: "Chiredzi – Checheche", phone: "+263772261169", region: "Chiredzi" },
+  { name: "Ms T Chikudo", location: "Mt Darwin", phone: "+263774321119", region: "Mt Darwin" },
+  { name: "Mt Darwin Agent 2", location: "Mt Darwin", phone: "+263772701667", region: "Mt Darwin" },
+  { name: "Mr DJ Dzingiso", location: "Gutu", phone: "+263777593386", region: "Gutu" },
+  { name: "Ms Moleen", location: "Gutu", phone: "+263781308478", region: "Gutu" },
+  { name: "Ms Mushangwe", location: "Gutu", phone: "+263773146484", region: "Gutu" },
+  { name: "Mrs Pretty P", location: "Hwange", phone: "+263772784755", region: "Hwange" },
+  { name: "Mr Sibanda", location: "Hwange", phone: "+263777739126", region: "Hwange" },
+  { name: "Mai Chaire", location: "Mutasa – Honde Valley", phone: "+263715282124", region: "Honde Valley" },
+  { name: "Mrs Union", location: "Kadoma", phone: "+263712260685", region: "Kadoma" },
+  { name: "Mrs Mlambani", location: "Kadoma 2", phone: "+263773579034", region: "Kadoma" },
+  { name: "Ms Leeness", location: "Chegutu / Kadoma", phone: "+263781431194", region: "Kadoma" },
+  { name: "Mrs Jane Munodawafa", location: "Karoi", phone: "+263779491148", region: "Karoi" },
+  { name: "Mrs Takabvakure", location: "Karoi", phone: "+263773413112", region: "Karoi" },
+  { name: "Agent Kwekwe 1", location: "Kwekwe", phone: "+263786168113", region: "Kwekwe" },
+  { name: "Mrs E", location: "Mbizo – Kwekwe", phone: "+263714377433", region: "Kwekwe" },
+  { name: "Ms Yvonne", location: "Masasa – Kwekwe", phone: "+263786779450", region: "Kwekwe" },
+  { name: "Mai Ta", location: "Amaveni – Kwekwe", phone: "+263714343894", region: "Kwekwe" },
+  { name: "Mrs Muzira", location: "Mbizo – Kwekwe", phone: "+263777445162", region: "Kwekwe" },
+  { name: "Mrs Mkosana", location: "Redcliff – Kwekwe", phone: "+263785999773", region: "Kwekwe" },
+  { name: "Mai Gangata", location: "Mbizo", phone: "+263774025073", region: "Kwekwe" },
+  { name: "Mrs Mashanda", location: "Kwekwe Rural", phone: "+263773713942", region: "Kwekwe" },
+  { name: "Mr Prosper", location: "Masvingo", phone: "+263776955391", region: "Masvingo" },
+  { name: "Agent Sundai", location: "Masvingo", phone: "+263773644130", region: "Masvingo" },
+  { name: "Mai Kuku", location: "Masvingo", phone: "+263775179695", region: "Masvingo" },
+  { name: "Ms Vimbai", location: "Masvingo – Nemwana", phone: "+263783944417", region: "Masvingo" },
+  { name: "Mrs Chinguvo", location: "Masvingo", phone: "+263773603335", region: "Masvingo" },
+  { name: "Agent Malcolm", location: "Masvingo", phone: "+263783396984", region: "Masvingo" },
+  { name: "Mrs Musiwedzingow2", location: "Masvingo", phone: "+263779619730", region: "Masvingo" },
+  { name: "Ms Kujinga", location: "Masvingo", phone: "+263772113629", region: "Masvingo" },
+  { name: "Mai Matuka", location: "Clipsham – Masvingo", phone: "+263772855127", region: "Masvingo" },
+  { name: "Mr Innocent", location: "Muchakata", phone: "+263779499862", region: "Masvingo" },
+  { name: "Mai Mandere", location: "Masvingo Town", phone: "+263772645244", region: "Masvingo" },
+  { name: "Mafirakureva Z", location: "Masvingo", phone: "+263773835571", region: "Masvingo" },
+  { name: "Ms Panatadi", location: "Mazowe", phone: "+263774242673", region: "Mazowe" },
+  { name: "Mrs Nariti", location: "Marondera Town", phone: "+263714738925", region: "Marondera" },
+  { name: "Mrs Chiminya", location: "Marondera", phone: "+263773544777", region: "Marondera" },
+  { name: "Aunty Chidongo", location: "Marondera", phone: "+263775503177", region: "Marondera" },
+  { name: "Mrs Maturure", location: "Cherutombo – Marondera", phone: "+263773545227", region: "Marondera" },
+  { name: "Mr Mafaune", location: "Mhangura – Chinhoyi", phone: "+263777607084", region: "Mhangura" },
+  { name: "Ms Chara", location: "Katawa – Mhondoro", phone: "+263774081997", region: "Mhondoro" },
+  { name: "Mrs Mubaiwa", location: "Mhondoro", phone: "+263780071364", region: "Mhondoro" },
+  { name: "Mr Chikove", location: "Mhondoro – Ngezi", phone: "+263773543274", region: "Mhondoro" },
+  { name: "Mrs Gambiza", location: "Mberengwa", phone: "+263713758320", region: "Mberengwa" },
+  { name: "Mai Kamangira", location: "Murehwa / Bhora", phone: "+263774399629", region: "Murehwa" },
+  { name: "Mr Zvinodavanhu", location: "Murehwa", phone: "+263776795546", region: "Murehwa" },
+  { name: "Mrs Kadzunge", location: "Nyahuni", phone: "+263772650645", region: "Murehwa" },
+  { name: "Tete Chiwaridzo", location: "Masiyarwa Business Centre", phone: "+263715327875", region: "Murombedzi" },
+  { name: "Mrs Jani", location: "Murombedzi", phone: "+263779282505", region: "Murombedzi" },
+  { name: "Ms F Matongo", location: "Dine T/ship – Mwenezi", phone: "+263788319684", region: "Mwenezi" },
+  { name: "Ms Winnet", location: "Mwenezi – Neshuro", phone: "+263782672774", region: "Mwenezi" },
+  { name: "Mai Katsande", location: "Mutoko Centre", phone: "+263771554526", region: "Mutoko" },
+  { name: "Rev J Nyakusendwa", location: "Mutoko – Nyadire", phone: "+263772554275", region: "Mutoko" },
+  { name: "Mrs Gwizo", location: "Mutoko – Nyamapanda", phone: "+263774340878", region: "Mutoko" },
+  { name: "Mrs Magonde", location: "Mutare 2", phone: "+263772744014", region: "Mutare" },
+  { name: "Mrs Dhlamini", location: "Mutare 3", phone: "+263773376733", region: "Mutare" },
+  { name: "Mutare Agent", location: "Chikanga – Mutare", phone: "+263772744014", region: "Mutare" },
+  { name: "Mrs Katsa", location: "Mutare – Dangamvura", phone: "+263776702417", region: "Mutare" },
+  { name: "Mrs Daure", location: "Mutare – Zimta Park", phone: "+263777637792", region: "Mutare" },
+  { name: "Ms Blessing Nyakambangwe", location: "Florida – Mutare", phone: "+263774020829", region: "Mutare" },
+  { name: "Mai Sibanda", location: "Mutare Health Shop", phone: "+263780086333", region: "Mutare" },
+  { name: "Mai Nyamhosva", location: "Chikanga", phone: "+263783339475", region: "Mutare" },
+  { name: "A Chinaka", location: "Hobhouse 2", phone: "+263772422270", region: "Mutare" },
+  { name: "MaiTsitsi", location: "Odzi – Mutare", phone: "+263718803635", region: "Mutare" },
+  { name: "Ms Gora", location: "Chivi – Ngundu", phone: "+263776466150", region: "Ngundu" },
+  { name: "Mrs C Hwarari", location: "Figtree – Plumtree", phone: "+263783636684", region: "Plumtree" },
+  { name: "Ms Mikiseni", location: "Nyanga", phone: "+263775387367", region: "Nyanga" },
+  { name: "Tete Tafirenyika", location: "Katanga – Norton", phone: "+263773524421", region: "Norton" },
+  { name: "Mrs Chigonda", location: "Norton", phone: "+263717522418", region: "Norton" },
+  { name: "Mai Saika", location: "Nyazura", phone: "+263785105567", region: "Nyazura" },
+  { name: "Mrs Chiwara", location: "Nyazura – Quagga", phone: "+263777875286", region: "Nyazura" },
+  { name: "Mai Amanda", location: "Nyazura", phone: "+263775242051", region: "Nyazura" },
+  { name: "Mai Muchenje", location: "Nyatsime", phone: "+263775270497", region: "Nyatsime" },
+  { name: "Sis Lorraine", location: "Rusape", phone: "+263774589067", region: "Rusape" },
+  { name: "Mai Twins", location: "Rusape", phone: "+263772767325", region: "Rusape" },
+  { name: "Mrs Katsumbe", location: "Rusape – Willows / Dowa", phone: "+263714316268", region: "Rusape" },
+  { name: "Mai Farai", location: "Rutenga", phone: "+263778567527", region: "Rutenga" },
+  { name: "Mai Jiri", location: "Rutenga – Growth Point", phone: "+263775132845", region: "Rutenga" },
+  { name: "Mai Hwingwiri", location: "Shamva", phone: "+263786612432", region: "Shamva" },
+  { name: "Mai Maruva", location: "Shamva", phone: "+263715473275", region: "Shamva" },
+  { name: "Mrs Nyathi", location: "Shurugwi", phone: "+263783739254", region: "Shurugwi" },
+  { name: "Mai Mrandu", location: "Nhema – Shurugwi Rural", phone: "+263783022221", region: "Shurugwi" },
+  { name: "Mai Tatenda", location: "Shurugwi", phone: "+263778377514", region: "Shurugwi" },
+  { name: "Ms Meakness Mkosana", location: "Victoria Falls", phone: "+263774996967", region: "Victoria Falls" },
+  { name: "Agent Saunyama", location: "Wedza", phone: "+263782821860", region: "Wedza" },
+  { name: "Ms Jane Chikwature", location: "Wedza", phone: "+263716355321", region: "Wedza" },
+  { name: "Mrs Marengwende", location: "Wedza Centre", phone: "+263773521462", region: "Wedza" },
+  { name: "Mrs Saunyama", location: "Wedza", phone: "+263775810160", region: "Wedza" },
+  { name: "Mai 2", location: "Machekera / Makanda / Goneso", phone: "+263776787692", region: "Wedza" },
+  { name: "Mano Junior", location: "Zhombe", phone: "+263779360323", region: "Zhombe" },
+  { name: "Mai Rugocha", location: "Zhombe Empress", phone: "+263780347070", region: "Zhombe" },
+  { name: "Mrs T Moyo", location: "Zhombe South", phone: "+263775617596", region: "Zhombe" },
+  { name: "Mrs BM", location: "Zvishavane", phone: "+263776498975", region: "Zvishavane" },
+  { name: "Agent P Makaka", location: "Zvishavane", phone: "+263771586227", region: "Zvishavane" },
+  { name: "Mr C Chikazhe", location: "Zvishavane", phone: "+263713328467", region: "Zvishavane" },
+  { name: "Ms Katsumbe", location: "Zvishavane", phone: "+263717593100", region: "Zvishavane" },
+
+  // Gweru
+  { name: "Mrs Chuma", location: "Gweru", phone: "", region: "Gweru" },
+  { name: "Mrs Khupe", location: "Woodlands – Gweru", phone: "+263772426214", region: "Gweru" },
+  { name: "Mr Chikara", location: "Gweru", phone: "+263784941756", region: "Gweru" },
+  { name: "Mrs Horonga", location: "Mkoba", phone: "+263773515034", region: "Gweru" },
+  { name: "Mrs Muchokwani", location: "Mkoba – Gweru", phone: "+263719512359", region: "Gweru" },
+  { name: "Ms Regina Ndlovu", location: "Chiwundura – Gweru Rural", phone: "+263710504838", region: "Gweru" },
+  { name: "Karson Chesa", location: "South Downs – Gweru", phone: "+263775093244", region: "Gweru" },
+  { name: "Mrs Linda Mzingwane", location: "Gweru", phone: "+263778190903", region: "Gweru" },
+  { name: "Mr Naison Moyo", location: "Lower Gwelo", phone: "+263777816601", region: "Gweru" },
+  { name: "Agent Deborah", location: "Gweru", phone: "+263780546736", region: "Gweru" },
+  { name: "S Maphosa", location: "Lundi Park", phone: "+263777327064", region: "Gweru" },
+
+  // International
+  { name: "Mandeya", location: "Mandeya – Honde Mozambique Border", phone: "+263775246941", region: "Mozambique" },
+  { name: "Mai Simbarashe", location: "Gaborone – Botswana", phone: "+26772435651", region: "Botswana" },
+  { name: "Ms B Ncube", location: "Francistown – Botswana", phone: "+26778235854", region: "Botswana" },
+  { name: "Mr Vincent", location: "Gaborone / Tlokweng – Botswana", phone: "+26775614216", region: "Botswana" },
+  { name: "Ms Octavia", location: "Cape Town – South Africa", phone: "+27748213430", region: "South Africa" },
+  { name: "Mrs Sicelo", location: "Joburg – South Africa", phone: "+27670138927", region: "South Africa" },
+  { name: "Ms Precious", location: "Joburg – South Africa", phone: "+27603426590", region: "South Africa" },
+  { name: "Ms L Chikamhi", location: "Tzaneen, Sekororo – South Africa", phone: "+27619753673", region: "South Africa" },
+  { name: "Mrs Penny Gandaganda", location: "Pretoria – South Africa", phone: "+27826940327", region: "South Africa" },
+  { name: "Miss Thandie", location: "Polokwane – South Africa", phone: "+27849411777", region: "South Africa" },
+  { name: "Mrs Gombero", location: "Polokwane Extension – South Africa", phone: "+27618110485", region: "South Africa" },
+  { name: "Ms Tsitsi Ndaba", location: "Polokwane – South Africa", phone: "+27721506102", region: "South Africa" },
+  { name: "Ms Nothando", location: "East London / Vincent / Southernwood – South Africa", phone: "+27730208717", region: "South Africa" },
+  { name: "Mr Joshua", location: "Durban – South Africa", phone: "+27744107358", region: "South Africa" },
+  { name: "Ps Masuku", location: "Durban – South Africa", phone: "+27640107305", region: "South Africa" },
+  { name: "Agent Dorothy", location: "Cape Town – South Africa", phone: "+27746107935", region: "South Africa" },
+  { name: "Ms Mandisa", location: "Kempton Park – South Africa", phone: "+27845143644", region: "South Africa" },
+  { name: "Agent Ms Nyasha", location: "Boksburg – South Africa", phone: "+27718175421", region: "South Africa" },
+  { name: "Ms Zoe", location: "Cape Town – South Africa", phone: "+27735948177", region: "South Africa" },
+  { name: "Mrs Mkwebo", location: "Parklands – South Africa", phone: "+27735000097", region: "South Africa" },
+  { name: "Mai Kuku", location: "Pretoria East – South Africa", phone: "+27613048141", region: "South Africa" },
+  { name: "Mr Ndlovu", location: "Tzaneen – Nkowa Nkowa – South Africa", phone: "+27817027066", region: "South Africa" },
+  { name: "Mrs Mlingwa", location: "Sibasa, Thohoyandou – Limpopo", phone: "+27725266814", region: "South Africa" },
+  { name: "Mai 2", location: "Joburg – Boksburg – South Africa", phone: "+27659894009", region: "South Africa" },
+  { name: "Mrs Mandisa", location: "Kempton Park – South Africa", phone: "+27816616539", region: "South Africa" },
+  { name: "Sister Connie", location: "Kempton Park / Glen Marais / Primrose / Midrand – Joburg", phone: "+27671971378", region: "South Africa" },
+  { name: "Ms Fadzie", location: "Cosmo City – Joburg", phone: "+27627377518", region: "South Africa" },
+  { name: "M Nguwaya", location: "Masina – Limpopo", phone: "+27749671423", region: "South Africa" },
+  { name: "Mrs Magiya", location: "Joburg – Benoni", phone: "+27643982824", region: "South Africa" },
+  { name: "Ms Egnes", location: "Alice – South Africa", phone: "+27719265061", region: "South Africa" },
+  { name: "Ms Edith", location: "Cape Town – Milnerstone", phone: "+27611606814", region: "South Africa" },
+  { name: "T Mlotshwa", location: "Somerset West – South Africa", phone: "+27610117853", region: "South Africa" },
+  { name: "Mrs E Mataga", location: "Kraaifontein / Wallacedene – Western Cape", phone: "+27814992979", region: "South Africa" },
+  { name: "Anywhere Kariza", location: "Fish Hoek – Cape Town", phone: "+27736918070", region: "South Africa" },
+  { name: "Ms L Msinyari", location: "Germiston / Thembisa – South Africa", phone: "+27822587672", region: "South Africa" },
+  { name: "Mrs Rukwava", location: "Cape Town – South Africa", phone: "+27785709701", region: "South Africa" },
+  { name: "Clive Matambo", location: "Cape Town – South Africa", phone: "+27692352422", region: "South Africa" },
+  { name: "Mai Hwata", location: "Cape Town – South Africa", phone: "+27739632418", region: "South Africa" },
+  { name: "B Mabuzani", location: "Pretoria – Mamelodi East", phone: "+27623963973", region: "South Africa" },
+  { name: "Mercy Ndlovu", location: "Germiston – South Africa", phone: "+27748981432", region: "South Africa" },
+  { name: "Mrs Ncube", location: "Springs – Joburg", phone: "+27744443143", region: "South Africa" },
+  { name: "Mai Dumi", location: "Eldorado Park – South Africa", phone: "+27726155553", region: "South Africa" },
+  { name: "Eustina Nguwaya", location: "Joburg – Alexandra", phone: "+27745067131", region: "South Africa" },
+  { name: "Ms Daphne", location: "Joburg – South Africa", phone: "+27731564938", region: "South Africa" },
+  { name: "Ms Patricia", location: "Joburg – South Africa", phone: "+27791686632", region: "South Africa" },
+  { name: "Muhau D", location: "Vereeniging – South Africa", phone: "+27627679348", region: "South Africa" },
+  { name: "Mr J Mutsvangwa", location: "Tzaneen Lephepane Khopo – South Africa", phone: "+27748693337", region: "South Africa" },
+  { name: "Sibusisiwe Chanona", location: "Western Cape – South Africa", phone: "+27624663884", region: "South Africa" },
+  { name: "W Zembe", location: "Witbank – Mpumalanga", phone: "+27817017342", region: "South Africa" },
+  { name: "Mrs Tom", location: "Mpumalanga – South Africa", phone: "+27613554882", region: "South Africa" },
+  { name: "Mrs Sithenjiwe Sibanda", location: "UAE", phone: "+263773738016", region: "United Arab Emirates" },
+  { name: "Ms Erica Kapota", location: "Derby, Staffordshire – UK", phone: "+447939637180", region: "United Kingdom" },
+  { name: "Mai Dee Dzimiri", location: "Wakefield, West Yorkshire – UK", phone: "+447806788998", region: "United Kingdom" },
+  { name: "Ms Day Marira", location: "Ireland", phone: "+353861750950", region: "Ireland" },
+];
+
+function highlight(text, query) {
+  if (!query) return text;
+  const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return text.replace(new RegExp(`(${escaped})`, 'gi'), '<mark>$1</mark>');
+}
+
+function render(query = '') {
+  const q = query.toLowerCase().trim();
+  const dir = document.getElementById('directory');
+  const noResults = document.getElementById('no-results');
+
+  // Group agents
+  const regionMap = {};
+  let totalVisible = 0;
+
+  agents.forEach(a => {
+    const matches = !q ||
+      a.name.toLowerCase().includes(q) ||
+      a.location.toLowerCase().includes(q) ||
+      a.phone.replace(/\s/g,'').includes(q.replace(/\s/g,'')) ||
+      a.region.toLowerCase().includes(q);
+
+    if (!matches) return;
+    totalVisible++;
+    if (!regionMap[a.region]) regionMap[a.region] = [];
+    regionMap[a.region].push(a);
+  });
+
+  // Head office visibility
+  const ho = document.getElementById('head-office');
+  if (q && !['head','office','roben','harare cbd','0773811793'].some(k => k.includes(q) || q.includes(k.split(' ')[0]))) {
+    ho.style.display = totalVisible === 0 ? 'none' : 'flex';
+  } else {
+    ho.style.display = 'flex';
+  }
+
+  document.getElementById('visible-count').textContent = totalVisible;
+  document.getElementById('region-count').textContent = Object.keys(regionMap).length;
+
+  if (totalVisible === 0) {
+    dir.innerHTML = '';
+    noResults.style.display = 'block';
+    document.getElementById('search-term').textContent = query;
+    return;
+  }
+  noResults.style.display = 'none';
+
+  const sorted = Object.keys(regionMap).sort((a,b) => {
+    // Special roles first
+    if (a === 'Special Roles') return -1;
+    if (b === 'Special Roles') return 1;
+    return a.localeCompare(b);
+  });
+
+  dir.innerHTML = sorted.map(region => {
+    const agentsHtml = regionMap[region].map(a => `
+      <div class="agent-card">
+        <div class="agent-name">${highlight(a.name, query)}</div>
+        <div class="agent-location">${highlight(a.location, query)}</div>
+        ${a.phone ? `<a class="agent-phone" href="tel:${a.phone}">📞 ${highlight(a.phone, query)}</a>` : ''}
+      </div>
+    `).join('');
+
+    return `
+      <div class="region-block">
+        <div class="region-header">
+          ${highlight(region, query)}
+          <span class="count">${regionMap[region].length}</span>
+        </div>
+        <div class="agents-grid">${agentsHtml}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+document.getElementById('search').addEventListener('input', e => {
+  render(e.target.value);
+});
+
+render();
+</script>
+</body>
+</html>
